@@ -1,0 +1,115 @@
+/* Hamotech Umami Analytics - Admin Styles */
+
+.wrap h1 {
+    color: #1d2327;
+    margin-bottom: 10px;
+}
+
+.hamotech-umami-header {
+    background: linear-gradient(135deg, #2271b1 0%, #135e96 100%);
+    color: white;
+    padding: 30px;
+    margin: 20px 0;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.hamotech-umami-header h2 {
+    color: white;
+    margin-top: 0;
+    font-size: 24px;
+}
+
+.hamotech-umami-header p {
+    font-size: 16px;
+    margin: 10px 0;
+    opacity: 0.95;
+}
+
+.hamotech-umami-header a {
+    color: white;
+    text-decoration: underline;
+    font-weight: 600;
+}
+
+.hamotech-umami-header a:hover {
+    opacity: 0.8;
+}
+
+.form-table th {
+    font-weight: 600;
+    color: #1d2327;
+}
+
+.form-table input[type="text"],
+.form-table input[type="url"] {
+    width: 100%;
+    max-width: 500px;
+}
+
+.form-table .description {
+    color: #646970;
+    font-size: 13px;
+    margin-top: 5px;
+}
+
+.form-table input[type="checkbox"] {
+    margin-right: 8px;
+}
+
+h2.title {
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid #dcdcde;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+h2.title:first-of-type {
+    margin-top: 0;
+    padding-top: 0;
+    border-top: none;
+}
+
+.submit {
+    padding-top: 10px;
+}
+
+.settings_page_hamotech-umami-settings .notice {
+    margin: 15px 0;
+}
+
+/* Dashboard Widget Styles */
+#hamotech_umami_widget .inside {
+    padding: 12px;
+}
+
+#hamotech_umami_widget .button-primary {
+    margin-top: 10px;
+}
+
+/* Settings sections styling */
+.hamotech-settings-section {
+    background: #fff;
+    padding: 20px;
+    margin: 20px 0;
+    border: 1px solid #c3c4c7;
+    border-radius: 4px;
+    box-shadow: 0 1px 1px rgba(0,0,0,0.04);
+}
+
+/* Responsive improvements */
+@media screen and (max-width: 782px) {
+    .form-table input[type="text"],
+    .form-table input[type="url"] {
+        max-width: 100%;
+    }
+    
+    .hamotech-umami-header {
+        padding: 20px;
+    }
+    
+    .hamotech-umami-header h2 {
+        font-size: 20px;
+    }
+}

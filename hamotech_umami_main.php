@@ -1,14 +1,14 @@
 <?php
 /**
  * Plugin Name: Hamotech Umami Analytics
- * Plugin URI: https://hamotechsolutions.com
+ * Plugin URI: 
  * Description: Advanced Umami Analytics integration for WordPress with custom event tracking, enhanced privacy controls, and comprehensive analytics features.
  * Version: 1.0.0
  * Author: Hamotech Solutions
  * Author URI: https://hamotechsolutions.com
  * License: GPL v2 or later
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
- * Text Domain: hamotech-umami
+ * Text Domain: hamotech-umami-analytics
  * Domain Path: /languages
  * Requires at least: 6.0
  * Requires PHP: 7.4
@@ -60,13 +60,15 @@ class Hamotech_Umami_Analytics {
     }
     
     public function load_textdomain() {
-        load_plugin_textdomain('hamotech-umami', false, dirname(HAMOTECH_UMAMI_PLUGIN_BASENAME) . '/languages');
+        // WordPress.org automatically loads translations for plugins
+        // No need to manually call load_plugin_textdomain() for WordPress.org hosted plugins
+        // Translations will be loaded automatically based on the text domain
     }
     
     public function add_admin_menu() {
         add_options_page(
-            __('Hamotech Umami Analytics', 'hamotech-umami'),
-            __('Umami Analytics', 'hamotech-umami'),
+            __('Hamotech Umami Analytics', 'hamotech-umami-analytics'),
+            __('Umami Analytics', 'hamotech-umami-analytics'),
             'manage_options',
             'hamotech-umami-settings',
             array($this, 'render_settings_page')
@@ -79,42 +81,42 @@ class Hamotech_Umami_Analytics {
         // Basic Settings Section
         add_settings_section(
             'hamotech_umami_basic_section',
-            __('Basic Configuration', 'hamotech-umami'),
+            __('Basic Configuration', 'hamotech-umami-analytics'),
             array($this, 'basic_section_callback'),
             'hamotech-umami-settings'
         );
         
-        add_settings_field('enabled', __('Enable Tracking', 'hamotech-umami'), array($this, 'enabled_callback'), 'hamotech-umami-settings', 'hamotech_umami_basic_section');
-        add_settings_field('website_id', __('Website ID', 'hamotech-umami'), array($this, 'website_id_callback'), 'hamotech-umami-settings', 'hamotech_umami_basic_section');
-        add_settings_field('script_url', __('Script URL', 'hamotech-umami'), array($this, 'script_url_callback'), 'hamotech-umami-settings', 'hamotech_umami_basic_section');
-        add_settings_field('host_url', __('Host URL', 'hamotech-umami'), array($this, 'host_url_callback'), 'hamotech-umami-settings', 'hamotech_umami_basic_section');
+        add_settings_field('enabled', __('Enable Tracking', 'hamotech-umami-analytics'), array($this, 'enabled_callback'), 'hamotech-umami-settings', 'hamotech_umami_basic_section');
+        add_settings_field('website_id', __('Website ID', 'hamotech-umami-analytics'), array($this, 'website_id_callback'), 'hamotech-umami-settings', 'hamotech_umami_basic_section');
+        add_settings_field('script_url', __('Script URL', 'hamotech-umami-analytics'), array($this, 'script_url_callback'), 'hamotech-umami-settings', 'hamotech_umami_basic_section');
+        add_settings_field('host_url', __('Host URL', 'hamotech-umami-analytics'), array($this, 'host_url_callback'), 'hamotech-umami-settings', 'hamotech_umami_basic_section');
         
         // Privacy Settings Section
         add_settings_section(
             'hamotech_umami_privacy_section',
-            __('Privacy & User Settings', 'hamotech-umami'),
+            __('Privacy & User Settings', 'hamotech-umami-analytics'),
             array($this, 'privacy_section_callback'),
             'hamotech-umami-settings'
         );
         
-        add_settings_field('ignore_admins', __('Ignore Admin Users', 'hamotech-umami'), array($this, 'ignore_admins_callback'), 'hamotech-umami-settings', 'hamotech_umami_privacy_section');
-        add_settings_field('ignore_logged_in', __('Ignore Logged-in Users', 'hamotech-umami'), array($this, 'ignore_logged_in_callback'), 'hamotech-umami-settings', 'hamotech_umami_privacy_section');
-        add_settings_field('respect_dnt', __('Respect Do Not Track', 'hamotech-umami'), array($this, 'respect_dnt_callback'), 'hamotech-umami-settings', 'hamotech_umami_privacy_section');
+        add_settings_field('ignore_admins', __('Ignore Admin Users', 'hamotech-umami-analytics'), array($this, 'ignore_admins_callback'), 'hamotech-umami-settings', 'hamotech_umami_privacy_section');
+        add_settings_field('ignore_logged_in', __('Ignore Logged-in Users', 'hamotech-umami-analytics'), array($this, 'ignore_logged_in_callback'), 'hamotech-umami-settings', 'hamotech_umami_privacy_section');
+        add_settings_field('respect_dnt', __('Respect Do Not Track', 'hamotech-umami-analytics'), array($this, 'respect_dnt_callback'), 'hamotech-umami-settings', 'hamotech_umami_privacy_section');
         
         // Event Tracking Section
         add_settings_section(
             'hamotech_umami_events_section',
-            __('Event Tracking', 'hamotech-umami'),
+            __('Event Tracking', 'hamotech-umami-analytics'),
             array($this, 'events_section_callback'),
             'hamotech-umami-settings'
         );
         
-        add_settings_field('track_comments', __('Track Comments', 'hamotech-umami'), array($this, 'track_comments_callback'), 'hamotech-umami-settings', 'hamotech_umami_events_section');
-        add_settings_field('track_logins', __('Track User Logins', 'hamotech-umami'), array($this, 'track_logins_callback'), 'hamotech-umami-settings', 'hamotech_umami_events_section');
-        add_settings_field('track_registrations', __('Track Registrations', 'hamotech-umami'), array($this, 'track_registrations_callback'), 'hamotech-umami-settings', 'hamotech_umami_events_section');
-        add_settings_field('track_downloads', __('Track File Downloads', 'hamotech-umami'), array($this, 'track_downloads_callback'), 'hamotech-umami-settings', 'hamotech_umami_events_section');
-        add_settings_field('track_outbound', __('Track Outbound Links', 'hamotech-umami'), array($this, 'track_outbound_callback'), 'hamotech-umami-settings', 'hamotech_umami_events_section');
-        add_settings_field('track_404', __('Track 404 Errors', 'hamotech-umami'), array($this, 'track_404_callback'), 'hamotech-umami-settings', 'hamotech_umami_events_section');
+        add_settings_field('track_comments', __('Track Comments', 'hamotech-umami-analytics'), array($this, 'track_comments_callback'), 'hamotech-umami-settings', 'hamotech_umami_events_section');
+        add_settings_field('track_logins', __('Track User Logins', 'hamotech-umami-analytics'), array($this, 'track_logins_callback'), 'hamotech-umami-settings', 'hamotech_umami_events_section');
+        add_settings_field('track_registrations', __('Track Registrations', 'hamotech-umami-analytics'), array($this, 'track_registrations_callback'), 'hamotech-umami-settings', 'hamotech_umami_events_section');
+        add_settings_field('track_downloads', __('Track File Downloads', 'hamotech-umami-analytics'), array($this, 'track_downloads_callback'), 'hamotech-umami-settings', 'hamotech_umami_events_section');
+        add_settings_field('track_outbound', __('Track Outbound Links', 'hamotech-umami-analytics'), array($this, 'track_outbound_callback'), 'hamotech-umami-settings', 'hamotech_umami_events_section');
+        add_settings_field('track_404', __('Track 404 Errors', 'hamotech-umami-analytics'), array($this, 'track_404_callback'), 'hamotech-umami-settings', 'hamotech_umami_events_section');
     }
     
     public function sanitize_options($input) {
@@ -143,7 +145,7 @@ class Hamotech_Umami_Analytics {
         }
         
         if (isset($_GET['settings-updated'])) {
-            add_settings_error('hamotech_umami_messages', 'hamotech_umami_message', __('Settings Saved', 'hamotech-umami'), 'updated');
+            add_settings_error('hamotech_umami_messages', 'hamotech_umami_message', __('Settings Saved', 'hamotech-umami-analytics'), 'updated');
         }
         
         settings_errors('hamotech_umami_messages');
@@ -151,15 +153,15 @@ class Hamotech_Umami_Analytics {
         <div class="wrap">
             <h1><?php echo esc_html(get_admin_page_title()); ?></h1>
             <div style="background: #fff; padding: 20px; margin: 20px 0; border-left: 4px solid #2271b1;">
-                <p><strong><?php _e('Powered by Hamotech Solutions', 'hamotech-umami'); ?></strong></p>
-                <p><?php _e('Professional Umami Analytics integration with advanced event tracking and privacy controls.', 'hamotech-umami'); ?></p>
-                <p><a href="https://hamotechsolutions.com" target="_blank"><?php _e('Visit Hamotechsolutions.com', 'hamotech-umami'); ?></a></p>
+                <p><strong><?php esc_html_e('Powered by Hamotech Solutions', 'hamotech-umami-analytics'); ?></strong></p>
+                <p><?php esc_html_e('Professional Umami Analytics integration with advanced event tracking and privacy controls.', 'hamotech-umami-analytics'); ?></p>
+                <p><a href="https://hamotechsolutions.com" target="_blank"><?php esc_html_e('Visit Hamotechsolutions.com', 'hamotech-umami-analytics'); ?></a></p>
             </div>
             <form action="options.php" method="post">
                 <?php
                 settings_fields('hamotech_umami_settings');
                 do_settings_sections('hamotech-umami-settings');
-                submit_button(__('Save Settings', 'hamotech-umami'));
+                submit_button(__('Save Settings', 'hamotech-umami-analytics'));
                 ?>
             </form>
         </div>
@@ -168,107 +170,107 @@ class Hamotech_Umami_Analytics {
     
     // Section Callbacks
     public function basic_section_callback() {
-        echo '<p>' . __('Configure your Umami Analytics connection. Get your Website ID and Script URL from your Umami dashboard.', 'hamotech-umami') . '</p>';
+        echo '<p>' . esc_html__('Configure your Umami Analytics connection. Get your Website ID and Script URL from your Umami dashboard.', 'hamotech-umami-analytics') . '</p>';
     }
     
     public function privacy_section_callback() {
-        echo '<p>' . __('Control who gets tracked and respect user privacy preferences.', 'hamotech-umami') . '</p>';
+        echo '<p>' . esc_html__('Control who gets tracked and respect user privacy preferences.', 'hamotech-umami-analytics') . '</p>';
     }
     
     public function events_section_callback() {
-        echo '<p>' . __('Enable automatic tracking for various user interactions and events on your site.', 'hamotech-umami') . '</p>';
+        echo '<p>' . esc_html__('Enable automatic tracking for various user interactions and events on your site.', 'hamotech-umami-analytics') . '</p>';
     }
     
     // Field Callbacks
     public function enabled_callback() {
         $options = get_option('hamotech_umami_options');
         $checked = isset($options['enabled']) && $options['enabled'] ? 'checked' : '';
-        echo '<input type="checkbox" id="enabled" name="hamotech_umami_options[enabled]" value="1" ' . $checked . '>';
-        echo '<label for="enabled">' . __('Enable Umami Analytics tracking', 'hamotech-umami') . '</label>';
+        echo '<input type="checkbox" id="enabled" name="hamotech_umami_options[enabled]" value="1" ' . esc_attr($checked) . '>';
+        echo '<label for="enabled">' . esc_html__('Enable Umami Analytics tracking', 'hamotech-umami-analytics') . '</label>';
     }
     
     public function website_id_callback() {
         $options = get_option('hamotech_umami_options');
         $value = $options['website_id'] ?? '';
         echo '<input type="text" id="website_id" name="hamotech_umami_options[website_id]" value="' . esc_attr($value) . '" class="regular-text" required>';
-        echo '<p class="description">' . __('Found in your Umami website settings', 'hamotech-umami') . '</p>';
+        echo '<p class="description">' . esc_html__('Found in your Umami website settings', 'hamotech-umami-analytics') . '</p>';
     }
     
     public function script_url_callback() {
         $options = get_option('hamotech_umami_options');
         $value = $options['script_url'] ?? '';
         echo '<input type="url" id="script_url" name="hamotech_umami_options[script_url]" value="' . esc_attr($value) . '" class="regular-text" required>';
-        echo '<p class="description">' . __('Example: https://yourdomain.com/script.js', 'hamotech-umami') . '</p>';
+        echo '<p class="description">' . esc_html__('Example: https://yourdomain.com/script.js', 'hamotech-umami-analytics') . '</p>';
     }
     
     public function host_url_callback() {
         $options = get_option('hamotech_umami_options');
         $value = $options['host_url'] ?? '';
         echo '<input type="url" id="host_url" name="hamotech_umami_options[host_url]" value="' . esc_attr($value) . '" class="regular-text">';
-        echo '<p class="description">' . __('Optional: Your Umami host URL (leave empty to use default)', 'hamotech-umami') . '</p>';
+        echo '<p class="description">' . esc_html__('Optional: Your Umami host URL (leave empty to use default)', 'hamotech-umami-analytics') . '</p>';
     }
     
     public function ignore_admins_callback() {
         $options = get_option('hamotech_umami_options');
         $checked = isset($options['ignore_admins']) && $options['ignore_admins'] ? 'checked' : '';
-        echo '<input type="checkbox" id="ignore_admins" name="hamotech_umami_options[ignore_admins]" value="1" ' . $checked . '>';
-        echo '<label for="ignore_admins">' . __('Don\'t track admin users', 'hamotech-umami') . '</label>';
+        echo '<input type="checkbox" id="ignore_admins" name="hamotech_umami_options[ignore_admins]" value="1" ' . esc_attr($checked) . '>';
+        echo '<label for="ignore_admins">' . esc_html__('Don\'t track admin users', 'hamotech-umami-analytics') . '</label>';
     }
     
     public function ignore_logged_in_callback() {
         $options = get_option('hamotech_umami_options');
         $checked = isset($options['ignore_logged_in']) && $options['ignore_logged_in'] ? 'checked' : '';
-        echo '<input type="checkbox" id="ignore_logged_in" name="hamotech_umami_options[ignore_logged_in]" value="1" ' . $checked . '>';
-        echo '<label for="ignore_logged_in">' . __('Don\'t track any logged-in users', 'hamotech-umami') . '</label>';
+        echo '<input type="checkbox" id="ignore_logged_in" name="hamotech_umami_options[ignore_logged_in]" value="1" ' . esc_attr($checked) . '>';
+        echo '<label for="ignore_logged_in">' . esc_html__('Don\'t track any logged-in users', 'hamotech-umami-analytics') . '</label>';
     }
     
     public function respect_dnt_callback() {
         $options = get_option('hamotech_umami_options');
         $checked = isset($options['respect_dnt']) && $options['respect_dnt'] ? 'checked' : '';
-        echo '<input type="checkbox" id="respect_dnt" name="hamotech_umami_options[respect_dnt]" value="1" ' . $checked . '>';
-        echo '<label for="respect_dnt">' . __('Respect Do Not Track browser settings', 'hamotech-umami') . '</label>';
+        echo '<input type="checkbox" id="respect_dnt" name="hamotech_umami_options[respect_dnt]" value="1" ' . esc_attr($checked) . '>';
+        echo '<label for="respect_dnt">' . esc_html__('Respect Do Not Track browser settings', 'hamotech-umami-analytics') . '</label>';
     }
     
     public function track_comments_callback() {
         $options = get_option('hamotech_umami_options');
         $checked = isset($options['track_comments']) && $options['track_comments'] ? 'checked' : '';
-        echo '<input type="checkbox" id="track_comments" name="hamotech_umami_options[track_comments]" value="1" ' . $checked . '>';
-        echo '<label for="track_comments">' . __('Track comment submissions', 'hamotech-umami') . '</label>';
+        echo '<input type="checkbox" id="track_comments" name="hamotech_umami_options[track_comments]" value="1" ' . esc_attr($checked) . '>';
+        echo '<label for="track_comments">' . esc_html__('Track comment submissions', 'hamotech-umami-analytics') . '</label>';
     }
     
     public function track_logins_callback() {
         $options = get_option('hamotech_umami_options');
         $checked = isset($options['track_logins']) && $options['track_logins'] ? 'checked' : '';
-        echo '<input type="checkbox" id="track_logins" name="hamotech_umami_options[track_logins]" value="1" ' . $checked . '>';
-        echo '<label for="track_logins">' . __('Track user login events', 'hamotech-umami') . '</label>';
+        echo '<input type="checkbox" id="track_logins" name="hamotech_umami_options[track_logins]" value="1" ' . esc_attr($checked) . '>';
+        echo '<label for="track_logins">' . esc_html__('Track user login events', 'hamotech-umami-analytics') . '</label>';
     }
     
     public function track_registrations_callback() {
         $options = get_option('hamotech_umami_options');
         $checked = isset($options['track_registrations']) && $options['track_registrations'] ? 'checked' : '';
-        echo '<input type="checkbox" id="track_registrations" name="hamotech_umami_options[track_registrations]" value="1" ' . $checked . '>';
-        echo '<label for="track_registrations">' . __('Track new user registrations', 'hamotech-umami') . '</label>';
+        echo '<input type="checkbox" id="track_registrations" name="hamotech_umami_options[track_registrations]" value="1" ' . esc_attr($checked) . '>';
+        echo '<label for="track_registrations">' . esc_html__('Track new user registrations', 'hamotech-umami-analytics') . '</label>';
     }
     
     public function track_downloads_callback() {
         $options = get_option('hamotech_umami_options');
         $checked = isset($options['track_downloads']) && $options['track_downloads'] ? 'checked' : '';
-        echo '<input type="checkbox" id="track_downloads" name="hamotech_umami_options[track_downloads]" value="1" ' . $checked . '>';
-        echo '<label for="track_downloads">' . __('Track file download clicks (.pdf, .zip, .doc, etc.)', 'hamotech-umami') . '</label>';
+        echo '<input type="checkbox" id="track_downloads" name="hamotech_umami_options[track_downloads]" value="1" ' . esc_attr($checked) . '>';
+        echo '<label for="track_downloads">' . esc_html__('Track file download clicks (.pdf, .zip, .doc, etc.)', 'hamotech-umami-analytics') . '</label>';
     }
     
     public function track_outbound_callback() {
         $options = get_option('hamotech_umami_options');
         $checked = isset($options['track_outbound']) && $options['track_outbound'] ? 'checked' : '';
-        echo '<input type="checkbox" id="track_outbound" name="hamotech_umami_options[track_outbound]" value="1" ' . $checked . '>';
-        echo '<label for="track_outbound">' . __('Track outbound link clicks', 'hamotech-umami') . '</label>';
+        echo '<input type="checkbox" id="track_outbound" name="hamotech_umami_options[track_outbound]" value="1" ' . esc_attr($checked) . '>';
+        echo '<label for="track_outbound">' . esc_html__('Track outbound link clicks', 'hamotech-umami-analytics') . '</label>';
     }
     
     public function track_404_callback() {
         $options = get_option('hamotech_umami_options');
         $checked = isset($options['track_404']) && $options['track_404'] ? 'checked' : '';
-        echo '<input type="checkbox" id="track_404" name="hamotech_umami_options[track_404]" value="1" ' . $checked . '>';
-        echo '<label for="track_404">' . __('Track 404 error pages', 'hamotech-umami') . '</label>';
+        echo '<input type="checkbox" id="track_404" name="hamotech_umami_options[track_404]" value="1" ' . esc_attr($checked) . '>';
+        echo '<label for="track_404">' . esc_html__('Track 404 error pages', 'hamotech-umami-analytics') . '</label>';
     }
     
     public function enqueue_tracking_script() {
@@ -318,7 +320,7 @@ class Hamotech_Umami_Analytics {
             'hamotech-umami-tracking',
             esc_url($options['script_url']),
             array(),
-            null,
+            HAMOTECH_UMAMI_VERSION,
             true
         );
         
@@ -447,7 +449,7 @@ class Hamotech_Umami_Analytics {
         
         wp_add_dashboard_widget(
             'hamotech_umami_widget',
-            __('Umami Analytics', 'hamotech-umami'),
+            __('Umami Analytics', 'hamotech-umami-analytics'),
             array($this, 'render_dashboard_widget')
         );
     }
@@ -456,13 +458,13 @@ class Hamotech_Umami_Analytics {
         $options = get_option('hamotech_umami_options');
         $dashboard_url = trailingslashit($options['host_url']) . 'websites/' . $options['website_id'];
         
-        echo '<p>' . __('View your analytics dashboard:', 'hamotech-umami') . '</p>';
-        echo '<p><a href="' . esc_url($dashboard_url) . '" target="_blank" class="button button-primary">' . __('Open Umami Dashboard', 'hamotech-umami') . '</a></p>';
-        echo '<p style="margin-top: 15px; padding-top: 15px; border-top: 1px solid #ddd; color: #666; font-size: 12px;">' . __('Powered by Hamotech Solutions', 'hamotech-umami') . '</p>';
+        echo '<p>' . esc_html__('View your analytics dashboard:', 'hamotech-umami-analytics') . '</p>';
+        echo '<p><a href="' . esc_url($dashboard_url) . '" target="_blank" class="button button-primary">' . esc_html__('Open Umami Dashboard', 'hamotech-umami-analytics') . '</a></p>';
+        echo '<p style="margin-top: 15px; padding-top: 15px; border-top: 1px solid #ddd; color: #666; font-size: 12px;">' . esc_html__('Powered by Hamotech Solutions', 'hamotech-umami-analytics') . '</p>';
     }
     
     public function add_settings_link($links) {
-        $settings_link = '<a href="' . admin_url('options-general.php?page=hamotech-umami-settings') . '">' . __('Settings', 'hamotech-umami') . '</a>';
+        $settings_link = '<a href="' . esc_url(admin_url('options-general.php?page=hamotech-umami-settings')) . '">' . esc_html__('Settings', 'hamotech-umami-analytics') . '</a>';
         array_unshift($links, $settings_link);
         return $links;
     }

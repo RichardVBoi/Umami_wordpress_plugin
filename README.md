@@ -197,4 +197,4 @@ We welcome contributions! This plugin is designed to serve the WordPress communi
 
 ---
 
-**Made with precision by Hamotech Solutions** ❤️ Richard Vaalotu
+**Made with precision by Hamotech Solutions** ❤️ **Richard Vaalotu**
